@@ -1,0 +1,8 @@
+@value gray01, white01 from colors;
+
+.Button {
+  border-radius: 50%;
+  padding: 2em;
+  background-color: gray01;
+  color: white01;
+}
