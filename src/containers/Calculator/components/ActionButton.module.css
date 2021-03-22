@@ -1,0 +1,8 @@
+@value colors: "../../../styles/colors.css";
+@value gray02, black01 from colors;
+
+.ActionButton {
+  composes: Button from "./Button.module.css";
+  background-color: gray02;
+  color: black01;
+}

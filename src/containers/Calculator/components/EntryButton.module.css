@@ -1,0 +1,7 @@
+@value colors: "../../../styles/colors.css";
+@value gray01 from colors;
+
+.EntryButton {
+  background-color: gray01;
+  composes: Button from "./Button.module.css";
+}

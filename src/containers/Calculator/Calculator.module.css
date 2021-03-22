@@ -1,0 +1,25 @@
+@value colors: "../../styles/colors.css";
+@value black01 from colors;
+
+.Calculator {
+  background-color: black01;
+  padding: 0.5em;
+  font-size: 32px;
+  display: flex;
+  flex-direction: column;
+}
+
+.Buttons {
+  display: flex;
+}
+
+.Left {
+  display: flex;
+  width: 210px;
+  flex-wrap: wrap;
+}
+
+.Right {
+  display: flex;
+  flex-direction: column;
+}

@@ -1,0 +1,7 @@
+@value colors: "../../../styles/colors.css";
+@value orange01 from colors;
+
+.OperationButton {
+  background-color: orange01;
+  composes: Button from "./Button.module.css";
+}

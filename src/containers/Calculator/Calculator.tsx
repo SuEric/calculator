@@ -7,6 +7,8 @@ import {
   ResultViewer,
 } from "./components";
 
+import styles from "./Calculator.module.css";
+
 type MathOperation = (left: number, right: number) => number;
 
 const OPERATIONS = [
@@ -38,38 +40,40 @@ export default function Calculator() {
   }
 
   return (
-    <div>
+    <div className={styles.Calculator}>
       <ResultViewer result={result} />
-      <ActionButton
-        text="AC"
-        onClick={() => {
-          setLeft(null);
-          setOperation(null);
-          setResult(0);
-        }}
-      />
-      <ActionButton text="+/-" onClick={() => {}} />
-      <ActionButton text="%" onClick={() => {}} />
-      <div className="Left">
-        {Array.from(Array(10)).map((_, index) => (
-          <EntryButton value={index} />
-        ))}
-      </div>
-      <div className="right">
-        {OPERATIONS.map(({ text, operation }) => (
+      <div className={styles.Buttons}>
+        <div className={styles.Left}>
+          <ActionButton
+            text="AC"
+            onClick={() => {
+              setLeft(null);
+              setOperation(null);
+              setResult(0);
+            }}
+          />
+          <ActionButton text="+/-" onClick={() => {}} />
+          <ActionButton text="%" onClick={() => {}} />
+          {Array.from(Array(10)).map((_, index) => (
+            <EntryButton text={index.toString()} />
+          ))}
+        </div>
+        <div className={styles.Right}>
+          {OPERATIONS.map(({ text, operation }) => (
+            <OperationButton
+              onClick={() => {
+                setOperation(operation);
+              }}
+              text={text}
+            />
+          ))}
           <OperationButton
             onClick={() => {
-              setOperation(operation);
+              processOperation();
             }}
-            text={text}
+            text="="
           />
-        ))}
-        <OperationButton
-          onClick={() => {
-            processOperation();
-          }}
-          text="="
-        />
+        </div>
       </div>
     </div>
   );

@@ -1,0 +1,7 @@
+.ResultViewer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  min-height: 80px;
+  font-size: 44px;
+}

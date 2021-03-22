@@ -1,8 +1,10 @@
+@value colors: "../../styles/colors.css";
 @value gray01, white01 from colors;
 
 .Button {
-  border-radius: 50%;
-  padding: 2em;
   background-color: gray01;
+  border: none;
+  border-radius: 50%;
   color: white01;
+  padding: 2em;
 }
