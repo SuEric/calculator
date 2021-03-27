@@ -9,62 +9,80 @@ import {
 
 import styles from "./Calculator.module.css";
 
-type MathOperation = (left: number, right: number) => number;
+const OPERATIONS = {
+  "/": (left: number, right: number): number => left / right,
+  x: (left: number, right: number): number => left * right,
+  "-": (left: number, right: number): number => left - right,
+  "+": (left: number, right: number): number => left + right,
+};
 
-const OPERATIONS = [
-  {
-    text: "/",
-    operation: (left: number, right: number): number => left / right,
-  },
-  {
-    text: "x",
-    operation: (left: number, right: number): number => left * right,
-  },
-  {
-    text: "-",
-    operation: (left: number, right: number): number => left - right,
-  },
-  {
-    text: "+",
-    operation: (left: number, right: number): number => left + right,
-  },
-];
+type Operator = keyof typeof OPERATIONS;
 
 export default function Calculator() {
-  const [left, setLeft] = useState<number | null>();
-  const [operation, setOperation] = useState<MathOperation | null>();
-  const [result, setResult] = useState(0);
+  const [leftNumber, setLeftNumber] = useState<number | null>();
+  const [rightNumber, setRightNumber] = useState<number | null>();
+  const [operator, setOperator] = useState<Operator | null>();
+  const [viewerText, setViewerText] = useState("0");
 
   function processOperation() {
-    // setResult()
+    if (operator) {
+      const operationMethod = OPERATIONS[operator];
+      const newResult: number = operationMethod(
+        Number(leftNumber),
+        Number(rightNumber)
+      );
+      setViewerText(newResult.toString());
+      setLeftNumber(newResult);
+      setRightNumber(null);
+    }
   }
 
   return (
     <div className={styles.Calculator}>
-      <ResultViewer result={result} />
+      <ResultViewer text={viewerText} />
       <div className={styles.Buttons}>
         <div className={styles.Left}>
           <ActionButton
             text="AC"
             onClick={() => {
-              setLeft(null);
-              setOperation(null);
-              setResult(0);
+              setLeftNumber(null);
+              setRightNumber(null);
+              setOperator(null);
+              setViewerText("0");
+              // leftNumber.current = null;
             }}
           />
           <ActionButton text="+/-" onClick={() => {}} />
           <ActionButton text="%" onClick={() => {}} />
           {Array.from(Array(10)).map((_, index) => (
-            <EntryButton text={index.toString()} />
+            <EntryButton
+              key={`entry-${index}`}
+              text={index.toString()}
+              onClick={() => {
+                let newNumber;
+                if (operator) {
+                  newNumber = Number(`${rightNumber ?? 0}${index}`);
+                  setRightNumber(newNumber);
+                } else {
+                  newNumber = Number(`${leftNumber ?? 0}${index}`);
+                  setLeftNumber(newNumber);
+                }
+                setViewerText(newNumber.toString());
+              }}
+            />
           ))}
         </div>
         <div className={styles.Right}>
-          {OPERATIONS.map(({ text, operation }) => (
+          {Object.keys(OPERATIONS).map((symbol) => (
             <OperationButton
+              key={`symbol-${symbol}`}
               onClick={() => {
-                setOperation(operation);
+                if (leftNumber != null && rightNumber != null) {
+                  processOperation();
+                }
+                setOperator(symbol as Operator);
               }}
-              text={text}
+              text={symbol}
             />
           ))}
           <OperationButton
